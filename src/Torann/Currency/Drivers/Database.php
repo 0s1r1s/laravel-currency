@@ -60,20 +60,22 @@ class Database extends AbstractDriver
 
         $table = $this->getConfig('table', 'currencies');
 
-        foreach ($this->database->table($table)->get() as $currency) {
-            $cache[$currency->code] = [
-                'id' => $currency->id,
-                'title' => $currency->title,
-                'symbol_left' => $currency->symbol_left,
-                'symbol_right' => $currency->symbol_right,
-                'decimal_place' => $currency->decimal_place,
-                'value' => $currency->value,
-                'decimal_point' => $currency->decimal_point,
-                'thousand_point' => $currency->thousand_point,
-                'code' => $currency->code,
-            ];
+        if ($this->database->hasTable($table)) {
+            foreach ($this->database->table($table)->get() as $currency) {
+                $cache[$currency->code] = [
+                    'id' => $currency->id,
+                    'title' => $currency->title,
+                    'symbol_left' => $currency->symbol_left,
+                    'symbol_right' => $currency->symbol_right,
+                    'decimal_place' => $currency->decimal_place,
+                    'value' => $currency->value,
+                    'decimal_point' => $currency->decimal_point,
+                    'thousand_point' => $currency->thousand_point,
+                    'code' => $currency->code,
+                ];
+            }
         }
-
+        
         return $cache;
     }
 
