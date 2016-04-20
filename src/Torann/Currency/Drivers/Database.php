@@ -2,7 +2,7 @@
 
 namespace Torann\Currency\Drivers;
 
-use DateTime;
+use DateTime, Schema;
 use Illuminate\Database\DatabaseManager;
 
 class Database extends AbstractDriver
@@ -60,7 +60,7 @@ class Database extends AbstractDriver
 
         $table = $this->getConfig('table', 'currencies');
 
-        if ($this->database->hasTable($table)) {
+        if (Schema::hasTable($table)) {
             foreach ($this->database->table($table)->get() as $currency) {
                 $cache[$currency->code] = [
                     'id' => $currency->id,
